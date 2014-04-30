@@ -7,14 +7,15 @@ public class ConstructorExampleController : MonoBehaviour {
 	public ConstructorExampleObject myPrefab;
 
 	void Start(){
-		var myObject = Constructor.Construct<ConstructorExampleObject>(myPrefab, (obj) => {
-			((ConstructorExampleObject)obj).Name = "FirstType";
-			((ConstructorExampleObject)obj).Level = 0;
-		});
+
+		var myObject = UnityConstructor.Construct<ConstructorExampleObject>(myPrefab, 
+		                                                                    "First", 0);
 
 		Debug.Log(myObject);
 
-		myObject = Constructor.Construct<ConstructorExampleObject>(myPrefab, Vector3.one, Quaternion.Euler(90,90,0) , "SecondType", 1);
+		myObject = UnityConstructor.Construct<ConstructorExampleObject>(myPrefab, 
+		                                                           		Vector3.one, Quaternion.Euler(90,90,0),
+		                                                           		"Second", 1);
 
 		Debug.Log(myObject);
 	}
