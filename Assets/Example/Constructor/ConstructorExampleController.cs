@@ -9,12 +9,13 @@ public class ConstructorExampleController : MonoBehaviour {
 	void Start(){
 		var myObject = Constructor.Construct<ConstructorExampleObject>(myPrefab, (obj) => {
 			((ConstructorExampleObject)obj).Name = "FirstType";
+			((ConstructorExampleObject)obj).Level = 0;
 		});
 
-		Debug.Log(myObject.Name);
+		Debug.Log(myObject);
 
-		myObject = Constructor.Construct<ConstructorExampleObject>(myPrefab, "SecondType");
+		myObject = Constructor.Construct<ConstructorExampleObject>(myPrefab, "SecondType", 1);
 
-		Debug.Log(myObject.Name);
+		Debug.Log(myObject);
 	}
 }
