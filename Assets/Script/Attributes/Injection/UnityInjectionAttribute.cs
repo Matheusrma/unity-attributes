@@ -2,17 +2,13 @@
 
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
 public class UnityInjectionAttribute : Attribute{
-
-	public string GameObjectName{
+	
+	public IInjectionPolicy InjectionPolicy{
 		get;
-		set;
+		private set;
 	}
 
-	public UnityInjectionAttribute(){
-
-	}
-
-	public bool ShouldFindGameObjectByName(){
-		return GameObjectName != "";
+	public UnityInjectionAttribute(IInjectionPolicy policy){
+		InjectionPolicy = policy;
 	}
 }

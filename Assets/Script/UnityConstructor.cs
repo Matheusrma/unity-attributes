@@ -50,10 +50,8 @@ public static class UnityConstructor {
 			var att = (UnityInjectionAttribute[]) field.GetCustomAttributes(typeof(UnityInjectionAttribute), false);
 
 			if (att.Length > 0) {
-				if (att[0].ShouldFindGameObjectByName()) {
-					GameObject go = GameObject.Find (att [0].GameObjectName);
-					field.SetValue (instantiatedObject, go);
-				}
+				UnityEngine.Object toInject = att[0].InjectionPolicy.GetToBeInjectedObject((MonoBehaviour)instantiatedObject);
+				field.SetValue (instantiatedObject, toInject);
 			}
 		});
 	}

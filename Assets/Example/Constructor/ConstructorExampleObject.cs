@@ -15,11 +15,11 @@ public class ConstructorExampleObject : MonoBehaviour {
 		set;
 	}
 
-	[UnityInjection(GameObjectName = "InjectMe")]
+	[UnityGameObjectInjection("InjectMe")]
 	private GameObject m_injection;
 
-//	[UnityInjection(Component = Rigidbody)
-//	private Rigidbody m_injectedRigidbody;
+	[UnityComponentInjection(typeof(Rigidbody))]
+	private Rigidbody m_injectedRigidbody;
 
 	//Happens before the property setting
 	//Don't use the ConstructorParameters Properties here
@@ -33,6 +33,7 @@ public class ConstructorExampleObject : MonoBehaviour {
 
 		gameObject.name = Name;
 		Debug.Log(m_injection.name);
+		Debug.Log(m_injectedRigidbody != null);
 
 	}
 
