@@ -2,14 +2,9 @@
 using System.Collections;
 
 public class TestClass : MonoBehaviour {
+	
+	[TestAtribute]
+	public void Construct(){
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }
