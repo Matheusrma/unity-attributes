@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class ExampleObject : MonoBehaviour {
+public class ConstructorExampleObject : MonoBehaviour {
 
 	[UnityConstructorParameterAtribute(0)]
 	public string Name{
