@@ -14,7 +14,7 @@ public class ConstructorExampleController : MonoBehaviour {
 
 		Debug.Log(myObject);
 
-		myObject = Constructor.Construct<ConstructorExampleObject>(myPrefab, "SecondType", 1);
+		myObject = Constructor.Construct<ConstructorExampleObject>(myPrefab, Vector3.one, Quaternion.Euler(90,90,0) , "SecondType", 1);
 
 		Debug.Log(myObject);
 	}
