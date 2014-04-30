@@ -16,15 +16,17 @@ public class TestMain : Editor {
 
 		a.GetTypes().ToList().ForEach((type) =>{
 
-			type.GetMethods().ToList().ForEach((method) => {
+			var constructorPropertyList = new List<PropertyInfo>();
 
-				var testAtribute = (TestAtribute[])method.GetCustomAttributes(typeof(TestAtribute), false);
+			type.GetProperties().ToList().ForEach((property) => {
 
-				if (testAtribute.Length > 0){
-					Debug.Log(method.Name);
+				var att = (UnityConstructorParameterAtribute[]) property.GetCustomAttributes(typeof(UnityConstructorParameterAtribute), false);
+
+				if (att.Length > 0){
+					constructorPropertyList.Add(property);
 				}
-
 			});
+
 		});
 	}
 }

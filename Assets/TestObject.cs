@@ -3,8 +3,11 @@ using System.Collections;
 
 public class TestClass : MonoBehaviour {
 	
-	[TestAtribute]
-	public void Construct(){
-
+	[UnityConstructorParameterAtribute]
+	public string Name{
+		get;
+		set;
 	}
+
+
 }
