@@ -34,7 +34,6 @@ public class ConstructorExampleObject : MonoBehaviour {
 		gameObject.name = Name;
 		Debug.Log(m_injection.name);
 		Debug.Log(m_injectedRigidbody != null);
-
 	}
 
 	public override string ToString (){
