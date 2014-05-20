@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
@@ -14,10 +13,10 @@ public static class UnityConstructor {
 	}
 
 	public static T Construct<T>(T prefab, Vector3 position, Quaternion rotation, params object[] args) where T:UnityEngine.Object{
-		
+
 		T instantiatedObject = (T)GameObject.Instantiate(prefab, position, rotation);
 		
-		Type objectType = instantiatedObject.GetType();
+		System.Type objectType = instantiatedObject.GetType();
 		var constructorPropertyList = new List<PropertyInfo>();
 		
 		objectType.GetProperties().ToList().ForEach((property) => {
@@ -45,7 +44,7 @@ public static class UnityConstructor {
 	}
 
 
-	static void InjectFields (object instantiatedObject, Type objectType){
+	static void InjectFields (object instantiatedObject, System.Type objectType){
 		objectType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic).ToList ().ForEach (field =>  {
 			var att = (UnityInjectionAttribute[]) field.GetCustomAttributes(typeof(UnityInjectionAttribute), false);
 

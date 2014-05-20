@@ -4,16 +4,10 @@ using System.Collections;
 public class ConstructorExampleObject : MonoBehaviour {
 
 	[UnityConstructorParameter(0)]
-	public string Name{
-		get;
-		set;
-	}
+	public string Name{ get; set; }
 
 	[UnityConstructorParameter(1)]
-	public int Level{
-		get;
-		set;
-	}
+	public int Level{ get; set; }
 
 	[UnityGameObjectInjection("InjectMe")]
 	private GameObject m_injection;
@@ -30,8 +24,6 @@ public class ConstructorExampleObject : MonoBehaviour {
 	//Happens after the property setting. 
 	//You should start using the ConstructorParameters Properties here
 	void Start(){
-
-		gameObject.name = Name;
 		Debug.Log(m_injection.name);
 		Debug.Log(m_injectedRigidbody != null);
 	}
