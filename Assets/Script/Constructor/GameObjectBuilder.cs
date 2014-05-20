@@ -3,11 +3,15 @@ using System.Collections.Generic;
 
 public interface IGameObjectBuilder
 {
-	GameObject Construct();
-	
+	T Build<T>(params object[] constructorArgs) where T:Component;
+
 	IGameObjectBuilder FromResources(string resourcePath);
-	IGameObjectBuilder ParentTo(Transform parent, bool resetScale);
 	IGameObjectBuilder ThisObject (Object original);
+
+	IGameObjectBuilder At(Vector3 position);
+	IGameObjectBuilder WithRotation(Quaternion rotation);
+	IGameObjectBuilder ParentTo(Transform parent, bool resetScale);
+
 	IGameObjectBuilder WithName(string name);
 }
 
@@ -19,21 +23,50 @@ public class GameObjectBuilder : IGameObjectBuilder
 	bool m_resetScale = false;
 	
 	string m_name = "";
-	
+
+	Vector3 m_position = Vector3.zero;
+	Quaternion m_rotation = Quaternion.identity;
+
 	Object m_original = null;
+
+	static GameObjectBuilder m_instance;
+
+	public static IGameObjectBuilder Instance{
+		get{
+			if (m_instance == null)
+				m_instance = new GameObjectBuilder();
+
+			return m_instance;
+		}
+	}
+
+	GameObjectBuilder(){}
 	
-	public GameObjectBuilder(){}
-	
-	public GameObject Construct ()
+	public T Build<T>(params object[] constructorArgs) where T:Component
 	{
 		Object toInstantiate = DefineOriginal();
 		
-		var newGo = (GameObject)GameObject.Instantiate(toInstantiate);
+		T newGo = (T)GameObject.Instantiate(toInstantiate, m_position, m_rotation);
 		
 		SetParent(newGo);
 		SetName(newGo);
-		
+
+		var injector = new Injector();
+
+		injector.InjectFields(newGo);
+		injector.SetContructorValues(newGo, constructorArgs);
+
 		return newGo;
+	}
+
+	public IGameObjectBuilder At(Vector3 position){
+		m_position = position;
+		return this;
+	}
+
+	public IGameObjectBuilder WithRotation(Quaternion rotation){
+		m_rotation = rotation;
+		return this;
 	}
 	
 	public IGameObjectBuilder FromResources (string resourcePath)
@@ -61,7 +94,7 @@ public class GameObjectBuilder : IGameObjectBuilder
 		return this;
 	}
 	
-	private Object DefineOriginal()
+	Object DefineOriginal()
 	{
 		if (m_original != null) return m_original;
 		
@@ -72,7 +105,7 @@ public class GameObjectBuilder : IGameObjectBuilder
 		return new GameObject();
 	}
 	
-	void SetParent (GameObject newGo)
+	void SetParent (Component newGo)
 	{
 		if (m_parent != null) {
 			newGo.transform.parent = m_parent;
@@ -82,7 +115,7 @@ public class GameObjectBuilder : IGameObjectBuilder
 		}
 	}
 	
-	void SetName (GameObject newGo)
+	void SetName (Component newGo)
 	{
 		if (!m_name.Equals ("")) {
 			newGo.name = m_name;
